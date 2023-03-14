@@ -26,7 +26,7 @@ class TechChallenge {
     }
 
 
-    public static List<(double x, double)> GetDots() {
+    public static List<(double, double)> GetDots() {
         var dots = new List<(double x, double y)>();
         double x, y;
         int i = 0;
@@ -41,10 +41,7 @@ class TechChallenge {
             catch (FormatException){
                 Console.WriteLine("----Please enter numeric values----");
                 continue;
-            }
-           
-
-
+            }        
 
             i++;
             dots.Add((x, y));
@@ -66,16 +63,32 @@ class TechChallenge {
 
     public static void DisplayTriangleInfo(double ab, double bc, double ac) {
 
-        Boolean checkEquilateral = ab == bc && ab == ac;
-        Console.WriteLine($"Triangle IS { (checkEquilateral ? "" : " NOT") } 'Equilateral'");
+        Boolean isEquilateral = ab == bc && ab == ac;
+        Console.WriteLine($"Triangle IS{ (isEquilateral ? "" : " NOT") } 'Equilateral'");
 
-        Boolean checkIsoceles = (ab == bc && ab != ac) || (ab != bc && ab == ac) || (bc == ac && bc != ac);
-        Console.WriteLine($"Triangle IS { ( checkIsoceles ? "" : " NOT") } 'Isoceles'");
+        Boolean isIsoceles = (ab == bc && ab != ac) || (ab != bc && ab == ac) || (bc == ac && bc != ab);
+        Console.WriteLine($"Triangle IS{ ( isIsoceles ? "" : " NOT") } 'Isosceles'");
 
-        Boolean checkRight = Math.Abs((Math.Pow(bc,2) - (Math.Pow(ab, 2) + Math.Pow(ac, 2)))) <= 0.001;
-        Console.WriteLine($"Triangle IS {(checkRight ? "" : " NOT")} 'Right'\n");
+        
+        Boolean isRight = CheckRightTriangle(ab, bc, ac);
+        Console.WriteLine($"Triangle IS{(isRight ? "" : " NOT")} 'Right'\n");
 
     }
+
+    public static Boolean CheckRightTriangle(double ab, double bc, double ac) {
+
+        return RightFormula(sideA: ab, sideB: ac, hypothenuse: bc) || RightFormula(sideA: ab, sideB: bc, hypothenuse: ac) || RightFormula(sideA: ac, sideB: bc, hypothenuse: ab);
+                          
+    }
+
+    public static Boolean RightFormula(double sideA, double sideB, double hypothenuse) {
+
+        Boolean checkRight = Math.Abs((Math.Pow(hypothenuse, 2) - (Math.Pow(sideA, 2) + Math.Pow(sideB, 2)))) <= 0.001;
+        return checkRight;
+
+    }
+    
+
 
 
     public static void PerimeterNumbers(double ab, double bc, double ac) { 
